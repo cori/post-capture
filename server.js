@@ -21,7 +21,7 @@ app.get("/", function (request, response) {
 
 app.post("/", function (request, response) {
   console.log(request.body);
-  response.status(200).send();  
+  response.status(200).send(request.body.caseevntid);  
 });
 
 // listen for requests :)
