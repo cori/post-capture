@@ -19,7 +19,10 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.post("/", function re)
+app.post("/", function (request, response) {
+  console.log(request.body);
+  response.status(200).send();  
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
