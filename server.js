@@ -22,7 +22,7 @@ app.get("/", function (request, response) {
 app.post("/", function (request, response) {
   console.log(request.body);
 //  response.status(200).send(request.body.caseevntid);  
-  response.status(404).send();  
+  response.status(302).send();  
 });
 
 // listen for requests :)
