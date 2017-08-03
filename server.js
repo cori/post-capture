@@ -23,9 +23,9 @@ app.post("/", function (request, response) {
   var header=request.headers['authorization']||'';
   var token = header.split(/\s+/).pop()||'';
   var auth = new Buffer(token, 'base64').toString();
-  var parts = auth.aplit(/:/);
+  var parts = auth.split(/:/);
   console.log('username:' + parts[0]);
-  console.log('password:'+parts[1]);
+  console.log('password:'+ parts[1]);
   console.log(request.body);
 //  response.status(200).send(request.body.caseevntid);  
   response.status(200).send();  
