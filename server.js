@@ -20,8 +20,8 @@ app.get("/", function (request, response) {
 });
 
 app.post("/", function (request, response) {
-  var header=request.headers['authorization']|'';
-  var token = header.split(/\s+/).pop()|'';
+  var header=request.headers['authorization']||'';
+  var token = header.split(/\s+/).pop()||'';
   var auth = new Buffer(token, 'base64').toString();
   var parts = auth.aplit(/:/);
   console.log('username:' + parts[0]);
