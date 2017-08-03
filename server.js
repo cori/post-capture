@@ -20,14 +20,20 @@ app.get("/", function (request, response) {
 });
 
 app.post("/", function (request, response) {
-  var header=request.headers['authorization']||'';
+  console.log(request.body);
+  response.status(200).send(request.body.caseevntid);  
+});
+
+app.post("/basicauth", function(req, resp) {
+  var header=req.headers['authorization']||'';
   var token = header.split(/\s+/).pop()||'';
   var auth = new Buffer(token, 'base64').toString();
   var parts = auth.split(/:/);
   console.log('username:' + parts[0]);
   console.log('password:'+ parts[1]);
 //  console.log(request.body);
-  response.status(200).send(request.body.caseevntid);  
+  resp.status(200).send({'username':parts[0], 'password':parts[1]});
+  
 });
 
 // listen for requests :)
