@@ -17,6 +17,8 @@ Request records look like this:
 
 Simply `POST` to the root url and the `POST` body will be saved to .data/db.json.
 
+`GET /last` returns the last element in the database's JSON file. Presumably this will be the last POST added, but there's no guarantee of that.
+
 `GET /:id` returns the record matching the supplied id as JSON
 
 `GET  /:id/body` returns just the body of the matching record

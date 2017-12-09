@@ -37,6 +37,18 @@ app.get("/reset", function (request, response ) {
   response.status(200).send("Database cleared");
 });
 
+app.get("/last", function(request, response) {
+  var post = db
+    .get('posts')
+    .last()
+    .value();
+  if(post) {
+    response.status(200).send('<pre>' + JSON.stringify(post, null, '\t') + '</pre>');
+  } else {
+    response.sendStatus(404);
+  }
+})
+
 app.get("/:postId", function(request, response) {
   console.log(request.params.postId);
   var post = db
