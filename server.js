@@ -4,7 +4,10 @@
 // init project
 var express = require('express');
 var low  = require('lowdb');
-var db = low('.data/db.json', { storage: require('node_modules/lowdb/lib/storages/file-async') });
+const FileSync = require('lowdb/adapters/FileSync')
+
+const adapter = new FileSync('.data/db.json')
+const db = low(adapter)
 
 var bodyParser = require('body-parser');
 
@@ -17,6 +20,9 @@ app.use( bodyParser.json() );
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+db.defaults({ posts: [] })
+  .write()
+
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
   console.log(request);
@@ -26,7 +32,7 @@ app.get("/", function (request, response) {
 app.post("/", function (request, response) {
   console.log(request.body);
   db.get('posts')
-  .push({timestamp:Date(),host:request.hostname,body:request.body,req:request})
+  .push({timestamp:Date().toJSON(),host:request.hostname,body:request.body})
   .write();
   response.status(200).send();  
 });
