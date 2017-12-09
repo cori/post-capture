@@ -3,7 +3,9 @@
 
 // init project
 var express = require('express');
-var db  = require('lowdb');
+var low  = require('lowdb');
+var db = low('.data/db.json', { storage: require('node_modules/lowdb/lib/storages/file-async') });
+
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -24,8 +26,9 @@ app.get("/", function (request, response) {
 app.post("/", function (request, response) {
   console.log(request.body);
   db.get('posts')
-  .push({timestamp:Date(),})
-  response.status(200).send(request.body.caseevntid);  
+  .push({timestamp:Date(),host:request.hostname,body:request.body,req:request})
+  .write();
+  response.status(200).send();  
 });
 
 // listen for requests :)
