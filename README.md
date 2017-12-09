@@ -15,10 +15,11 @@ Request records look like this:
 }
 ```
 
-Simply `POST` to the root url and the `POST` body will be saved.
-
-`GET /reset` resets the database
+Simply `POST` to the root url and the `POST` body will be saved to .data/db.json.
 
 `GET /:id` returns the record matching the supplied id as JSON
 
 `GET  /:id/body` returns just the body of the matching record
+
+`GET /reset` resets the database
+
