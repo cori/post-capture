@@ -16,4 +16,4 @@ Lowdb records look like this:
 Simply POST to the root url and the POST body will be saved.
 
 `GET /reset` resets the database
-`GET /:id` returns the body of the
+`GET /:id` returns the body of record matching the supplied id

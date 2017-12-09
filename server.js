@@ -38,6 +38,19 @@ app.get("/reset", function (request, response ) {
   response.status(200).send();
 });
 
+app.get("/:postId", function(request, response) {
+  var post = db
+    .get('posts')
+    .find({id:request.params.postId})
+    .value();
+  if(post) {
+    // response.status(200).send(JSON.stringify(post, null, '\t'));
+    response.status(200).send(post);
+  } else {
+    response.sendStatus(404);
+  }
+})
+
 app.post("/", function (request, response) {
   console.log(request.body);
   db.get('posts')
