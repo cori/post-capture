@@ -18,7 +18,7 @@ app.use( bodyParser.json() );
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
 // http://expressjs.com/en/starter/static-files.html
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 db.defaults({ posts: [] })
   .write()
@@ -39,13 +39,26 @@ app.get("/reset", function (request, response ) {
 });
 
 app.get("/:postId", function(request, response) {
+  console.log(request.params.postId);
   var post = db
     .get('posts')
     .find({id:request.params.postId})
     .value();
   if(post) {
-    // response.status(200).send(JSON.stringify(post, null, '\t'));
-    response.status(200).send(post);
+    response.status(200).send('<pre>' + JSON.stringify(post, null, '\t') + '</pre>');
+  } else {
+    response.sendStatus(404);
+  }
+})
+
+app.get("/:postId/body", function(request, response) {
+  console.log(request.params.postId);
+  var post = db
+    .get('posts')
+    .find({id:request.params.postId})
+    .value();
+  if(post) {
+    response.status(200).send('<pre>' + JSON.stringify(post.body, null, '\t') + '</pre>');
   } else {
     response.sendStatus(404);
   }
@@ -56,7 +69,7 @@ app.post("/", function (request, response) {
   db.get('posts')
   .push({id:shortid.generate(),timestamp:(new Date()).toJSON(),ips:request.get('x-forwarded-for'),body:request.body})
   .write();
-  response.status(200).send();  
+  response.status(201).send();  
 });
 
 // listen for requests :)
