@@ -3,8 +3,10 @@
 
 // init project
 var express = require('express');
-var app = express();
+var db  = require('lowdb');
 var bodyParser = require('body-parser');
+
+var app = express();
 app.use( bodyParser.json() );
 
 // we've started you off with Express, 
@@ -21,19 +23,9 @@ app.get("/", function (request, response) {
 
 app.post("/", function (request, response) {
   console.log(request.body);
+  db.get('posts')
+  .push({timestamp:Date(),})
   response.status(200).send(request.body.caseevntid);  
-});
-
-app.post("/basicauth", function(req, resp) {
-  var header=req.headers['authorization']||'';
-  var token = header.split(/\s+/).pop()||'';
-  var auth = new Buffer(token, 'base64').toString();
-  var parts = auth.split(/:/);
-  console.log('username:' + parts[0]);
-  console.log('password:'+ parts[1]);
-//  console.log(request.body);
-  resp.status(200).send({'username':parts[0], 'password':parts[1]});
-  
 });
 
 // listen for requests :)

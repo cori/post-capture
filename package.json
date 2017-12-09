@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "express": "^4.15.3",
-    "body-parser": "*"
+    "body-parser": "*",
+    "lowdb": "*"
   },
   "engines": {
     "node": "8.1.x"
