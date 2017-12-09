@@ -17,11 +17,10 @@ Request records look like this:
 
 Simply `POST` to the root url and the `POST` body will be saved to .data/db.json.
 
-`GET /last` returns the last element in the database's JSON file. Presumably this will be the last POST added, but there's no guarantee of that.
+`GET /last` returns the last element in the database's JSON file. Presumably this will be the last POST added, but there's no guarantee of that; this is really just a convenience. Also, hopefully "last" will never be the id of a request, or we'll never be able to get to that.
 
-`GET /:id` returns the record matching the supplied id as JSON
+`GET /:id` returns the record matching the supplied id as JSON. This allows captured requests to be shared.
 
 `GET  /:id/body` returns just the body of the matching record
 
 `GET /reset` resets the database
-
