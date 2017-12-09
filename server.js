@@ -2,37 +2,30 @@
 // where your node app starts
 
 // init project
-var express = require('express');
-var low  = require('lowdb');
+const express = require('express');
+const low  = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync('.data/db.json');
 const db = low(adapter);
 const shortid = require('shortid');
 
-var bodyParser = require('body-parser');
+// var bodyParser = require('body-parser');
 
 const fs = require('fs');
 var showdown  = require('showdown');
 const converter = new showdown.Converter();
 
 var app = express();
-app.use( bodyParser.json() );
-
-// we've started you off with Express, 
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
-
-// http://expressjs.com/en/starter/static-files.html
-// app.use(express.static('public'));
+// app.use( bodyParser.json() );
 
 db.defaults({ posts: [] })
   .write()
 
-// http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (equest, response) {
   var path = __dirname + '/README.md';
   var file = fs.readFileSync(path, 'utf8');
   
-  response.send(converter.makeHtml(file.toString()));
+  response.status(200).send(converter.makeHtml(file.toString()));
 });
 
 app.get("/reset", function (request, response ) {
@@ -41,7 +34,7 @@ app.get("/reset", function (request, response ) {
   .remove()
   .write();
   console.log("Database cleared");
-  response.status(200).send();
+  response.status(200).send("Database cleared");
 });
 
 app.get("/:postId", function(request, response) {
