@@ -4,10 +4,10 @@
 // init project
 var express = require('express');
 var low  = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync')
-
-const adapter = new FileSync('.data/db.json')
-const db = low(adapter)
+const FileSync = require('lowdb/adapters/FileSync');
+const adapter = new FileSync('.data/db.json');
+const db = low(adapter);
+const shortid = require('shortid');
 
 var bodyParser = require('body-parser');
 
@@ -29,10 +29,19 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
+app.get("/reset", function (request, response ) {
+  // removes all entries from the collection
+  db.get('posts')
+  .remove()
+  .write();
+  console.log("Database cleared");
+  response.status(200).send();
+});
+
 app.post("/", function (request, response) {
   console.log(request.body);
   db.get('posts')
-  .push({timestamp:(new Date()).toJSON(),ip:request.connection.remoteAddress,body:request.body})
+  .push({id:shortid.generate(),timestamp:(new Date()).toJSON(),ips:request.get('x-forwarded-for'),body:request.body})
   .write();
   response.status(200).send();  
 });
