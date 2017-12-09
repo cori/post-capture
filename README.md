@@ -3,7 +3,7 @@ Simple RequestBin Replacement
 
 Very simple app that saves HTTP POST data to a local lowdb file. File is saved in `.data` so it will not be carried across in remixes.
 
-Lowdb records look like this:
+Request records look like this:
 ```
 {
   "id": "shortid",
