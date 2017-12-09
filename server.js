@@ -11,6 +11,10 @@ const shortid = require('shortid');
 
 var bodyParser = require('body-parser');
 
+const fs = require('fs');
+var showdown  = require('showdown');
+const converter = new showdown.Converter();
+
 var app = express();
 app.use( bodyParser.json() );
 
@@ -24,9 +28,11 @@ db.defaults({ posts: [] })
   .write()
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function (request, response) {
-  console.log(request);
-  response.sendFile(__dirname + '/views/index.html');
+app.get("/", function (equest, response) {
+  var path = __dirname + '/README.md';
+  var file = fs.readFileSync(path, 'utf8');
+  
+  response.send(converter.makeHtml(file.toString()));
 });
 
 app.get("/reset", function (request, response ) {

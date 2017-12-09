@@ -14,7 +14,8 @@
     "express": "^4.15.3",
     "body-parser": "*",
     "lowdb": "*",
-    "shortid":"*"
+    "shortid":"*",
+    "showdown":"*"
   },
   "engines": {
     "node": "8.1.x"
