@@ -32,7 +32,7 @@ app.get("/", function (request, response) {
 app.post("/", function (request, response) {
   console.log(request.body);
   db.get('posts')
-  .push({timestamp:(new Date()).toJSON(),ip:request.ips,body:request.body})
+  .push({timestamp:(new Date()).toJSON(),ip:request.connection.remoteAddress,body:request.body})
   .write();
   response.status(200).send();  
 });
