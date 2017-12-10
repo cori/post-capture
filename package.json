@@ -12,7 +12,10 @@
   },
   "dependencies": {
     "express": "^4.15.3",
-    "body-parser": "*"
+    "body-parser": "*",
+    "lowdb": "*",
+    "shortid":"*",
+    "showdown":"*"
   },
   "engines": {
     "node": "8.1.x"
