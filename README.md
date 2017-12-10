@@ -1,27 +1,26 @@
-Welcome to the Glitch BETA
-=========================
+Simple RequestBin Replacement
+=============================
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
+Very simple app that saves HTTP POST data to a local lowdb file. File is saved in `.data` so it will not be carried across in remixes.
 
-**Glitch** is the friendly commmunity where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+Request records look like this:
+```
+{
+  "id": "shortid",
+  "timestamp": "2017-12-09T17:47:02.407Z",
+  "ips": "a. .l.i.s,t. .o.f, .i.p.s",
+  "body": {
+    "some":"json"
+  }
+}
+```
 
-Find out more [about Glitch](https://glitch.com/about).
+Simply `POST` to the root url and the `POST` body will be saved to .data/db.json.
 
+`GET /last` returns the last element in the database's JSON file. Presumably this will be the last POST added, but there's no guarantee of that; this is really just a convenience. Also, hopefully "last" will never be the id of a request, or we'll never be able to get to that.
 
-Your Project
-------------
+`GET /:id` returns the record matching the supplied id as JSON. This allows captured requests to be shared.
 
-On the front-end,
-- edit `public/client.js`, `public/style.css` and `views/index.html`
-- drag in `assets`, like images or music, to add them to your project
+`GET  /:id/body` returns just the body of the matching record
 
-On the back-end,
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
-
-
-Made by [Fog Creek](https://fogcreek.com/)
--------------------
-
-\ ゜o゜)ノ
+`GET /reset` resets the database

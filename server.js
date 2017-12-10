@@ -2,38 +2,85 @@
 // where your node app starts
 
 // init project
-var express = require('express');
+const express = require('express');
+const low  = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
+const adapter = new FileSync('.data/db.json');
+const db = low(adapter);
+const shortid = require('shortid');
+
+// var bodyParser = require('body-parser');
+
+const fs = require('fs');
+var showdown  = require('showdown');
+const converter = new showdown.Converter();
+
 var app = express();
-var bodyParser = require('body-parser');
-app.use( bodyParser.json() );
+// app.use( bodyParser.json() );
 
-// we've started you off with Express, 
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
+db.defaults({ posts: [] })
+  .write()
 
-// http://expressjs.com/en/starter/static-files.html
-app.use(express.static('public'));
-
-// http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function (request, response) {
-  console.log(request);
-  response.sendFile(__dirname + '/views/index.html');
+app.get("/", function (equest, response) {
+  var path = __dirname + '/README.md';
+  var file = fs.readFileSync(path, 'utf8');
+  
+  response.status(200).send(converter.makeHtml(file.toString()));
 });
+
+app.get("/reset", function (request, response ) {
+  // removes all entries from the collection
+  db.get('posts')
+  .remove()
+  .write();
+  console.log("Database cleared");
+  response.status(200).send("Database cleared");
+});
+
+app.get("/last", function(request, response) {
+  var post = db
+    .get('posts')
+    .last()
+    .value();
+  if(post) {
+    response.status(200).send('<pre>' + JSON.stringify(post, null, '\t') + '</pre>');
+  } else {
+    response.sendStatus(404);
+  }
+})
+
+app.get("/:postId", function(request, response) {
+  console.log(request.params.postId);
+  var post = db
+    .get('posts')
+    .find({id:request.params.postId})
+    .value();
+  if(post) {
+    response.status(200).send('<pre>' + JSON.stringify(post, null, '\t') + '</pre>');
+  } else {
+    response.sendStatus(404);
+  }
+})
+
+app.get("/:postId/body", function(request, response) {
+  console.log(request.params.postId);
+  var post = db
+    .get('posts')
+    .find({id:request.params.postId})
+    .value();
+  if(post) {
+    response.status(200).send('<pre>' + JSON.stringify(post.body, null, '\t') + '</pre>');
+  } else {
+    response.sendStatus(404);
+  }
+})
 
 app.post("/", function (request, response) {
   console.log(request.body);
-  response.status(200).send(request.body.caseevntid);  
-});
-
-app.post("/basicauth", function(req, resp) {
-  var header=req.headers['authorization']||'';
-  var token = header.split(/\s+/).pop()||'';
-  var auth = new Buffer(token, 'base64').toString();
-  var parts = auth.split(/:/);
-  console.log('username:' + parts[0]);
-  console.log('password:'+ parts[1]);
-//  console.log(request.body);
-  resp.status(200).send({'username':parts[0], 'password':parts[1]});
-  
+  db.get('posts')
+  .push({id:shortid.generate(),timestamp:(new Date()).toJSON(),ips:request.get('x-forwarded-for'),body:request.body})
+  .write();
+  response.status(201).send();  
 });
 
 // listen for requests :)
