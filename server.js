@@ -28,13 +28,26 @@ app.get("/", function (equest, response) {
   response.status(200).send(converter.makeHtml(file.toString()));
 });
 
-app.get("/reset", function (request, response ) {
-  // removes all entries from the collection
-  db.get('posts')
-  .remove()
-  .write();
-  console.log("Database cleared");
-  response.status(200).send("Database cleared");
+//   this is probably a bad idea
+// app.get("/reset", function (request, response ) {
+//   // removes all entries from the collection
+//   db.get('posts')
+//   .remove()
+//   .write();
+//   console.log("Database cleared");
+//   response.status(200).send("Database cleared");
+// });
+
+app.get("/ids", function(request, response) {
+  var ids = db
+  .get('posts')
+  .map('id')
+  .value();
+  if(ids) {
+    response.status(200).send('<pre>' + JSON.stringify(ids, null, '\t') + '</pre>');
+  } else {
+    response.sendStatus(404);
+  }
 });
 
 app.get("/last", function(request, response) {
