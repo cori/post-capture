@@ -8,7 +8,7 @@ Request records look like this:
 {
   "id": "shortid",
   "timestamp": "2017-12-09T17:47:02.407Z",
-  "ips": "a. .l.i.s,t. .o.f, .i.p.s",
+  "ips": "a. .l.i.s,t. .o.f, .i.p.s",  (the contents of the X-Forwarded-For header)
   "body": {
     "some":"json"
   }
