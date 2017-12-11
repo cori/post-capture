@@ -9,7 +9,6 @@ Request records look like this:
   "id": "shortid",
   "timestamp": "2017-12-09T17:47:02.407Z",
   "ips": "a. .l.i.s,t. .o.f, .i.p.s",  (the contents of the X-Forwarded-For header)
-  "ips": "a. .l.i.s,t. .o.f, .i.p.s",
   "body": {
     "some":"json"
   }
@@ -17,6 +16,9 @@ Request records look like this:
 ```
 
 Simply `POST` to the root url and the `POST` body will be saved to .data/db.json.
+
+WARNING:
+The POST data is persisted to the database file in plain text, and is sent to any anonymous requestor in plain text over the internets. Do not send POSTs to this service if they contain even slightly important secrets.
 
 `GET /ids` returns an array of the ids currently in the database
 
