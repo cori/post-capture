@@ -93,6 +93,7 @@ app.post("/", function (request, response) {
   db.get('posts')
   .push({id:shortid.generate(),timestamp:(new Date()).toJSON(),ips:request.get('x-forwarded-for'),body:request.body})
   .write();
+  //  TODO:  notify that there's a new POST
   response.status(201).send();  
 });
 
