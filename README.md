@@ -17,6 +17,9 @@ Request records look like this:
 
 Simply `POST` to the root url and the `POST` body will be saved to .data/db.json.
 
+WARNING:
+The POST data is persisted to the database file in plain text, and is sent to any anonymous requestor in plain text over the internets. Do not send POSTs to this service if they contain even slightly important secrets.
+
 `GET /ids` returns an array of the ids currently in the database
 
 `GET /last` returns the last element in the database's JSON file. Presumably this will be the last POST added, but there's no guarantee of that; this is really just a convenience. Also, hopefully "last" will never be the id of a request, or we'll never be able to get to that.
