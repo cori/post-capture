@@ -90,11 +90,12 @@ app.get("/:postId/body", function(request, response) {
 
 app.post("/", function (request, response) {
   console.log(request.body);
+  console.log(request);
   db.get('posts')
-  .push({id:shortid.generate(),timestamp:(new Date()).toJSON(),ips:request.get('x-forwarded-for'),body:request.body})
+  .push({id:shortid.generate(),timestamp:(new Date()).toJSON(),ips:request.get('x-forwarded-for'),body:request.body, headers:request.})
   .write();
   //  TODO:  notify that there's a new POST
-  response.status(201).send();  
+  response.status(201).send();
 });
 
 // listen for requests :)
