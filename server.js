@@ -9,14 +9,14 @@ const adapter = new FileSync('.data/db.json');
 const db = low(adapter);
 const shortid = require('shortid');
 
-// var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 
 const fs = require('fs');
 var showdown  = require('showdown');
 const converter = new showdown.Converter();
 
 var app = express();
-// app.use( bodyParser.json() );
+app.use( bodyParser.json() );
 
 db.defaults({ posts: [] })
   .write()
