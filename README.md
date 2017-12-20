@@ -11,6 +11,10 @@ Request records look like this:
   "ips": "a. .l.i.s,t. .o.f, .i.p.s",  (the contents of the X-Forwarded-For header)
   "body": {
     "some":"json"
+  },
+  "headers": {
+    "header-key": "header-value",
+    ...
   }
 }
 ```
